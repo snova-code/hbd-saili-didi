@@ -57,6 +57,18 @@ Everything is plain text inside `index.html`:
 Background music is `birthday-song2.mp3`. To swap the song, replace that file
 and keep the name.
 
+## The background
+
+It's a cosmos drawn live on a canvas — nebulae, two spiral galaxies, four
+depths of stars, shooting stars, and planets that drift along on their own
+with moons circling them. The layers all move at different speeds as you
+scroll, which is what gives the depth, and they follow the pointer slightly
+on a laptop.
+
+Nothing to install or configure. It recolours itself when you flip the theme,
+goes still if the device asks for reduced motion, and uses fewer, smaller
+pieces on phones so it stays smooth.
+
 ## Good to know
 
 - It's built for a phone first — that's where she'll most likely open it.
