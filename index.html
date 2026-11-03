@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌻 Happy Birthday Kriti 🌻</title>
-<meta name="description" content="A birthday page for Kriti — the kindest, most generous soul, from her sister.">
+<meta name="description" content="A birthday page for Kriti — the kindest, most generous soul, from her Babu.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -581,6 +581,18 @@ img.miss{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
+<script>
+/* ═══════════════════ SETTINGS — change these two ═══════════════════
+   DEFAULT_THEME  which palette the page opens in: 'sunlight' or 'aurora'
+                  (the toggle still works either way)
+   BIRTHDAY       YYYY-MM-DDTHH:MM:SS+TZ  —  +05:45 Nepal, +05:30 India
+                  counts up from a past date, down to a future one
+   ═════════════════════════════════════════════════════════════════ */
+const DEFAULT_THEME = 'sunlight';
+const BIRTHDAY      = '1996-11-03T00:00:00+05:45';
+/* ═════════════════════════════════════════════════════════════════ */
+if(DEFAULT_THEME==='aurora')document.documentElement.dataset.theme='aurora';
+</script>
 </head>
 <body>
 
@@ -995,11 +1007,19 @@ function buildSky(){
 }
 
 // ── shooting stars ──
-function spawnShoot(){
-  const dir=Math.random()<.5?1:-1,a=RND(.2,.5),sp=RND(7,13),life=RND(55,95);
-  shoot.push({x:dir>0?RND(-.1,.55)*cvW:RND(.45,1.1)*cvW,y:RND(-.08,.5)*cvH,
-    vx:Math.cos(a)*sp*dir,vy:Math.sin(a)*sp,len:RND(6,13),w:RND(1.1,2.2),life,max:life});
-  if(Math.random()<.22)setTimeout(spawnShoot,RND(180,420));   // occasional pair
+// With no arguments: a random one from the edge of the sky, on the timer.
+// With a point: launched from there, because someone tapped.
+function spawnShoot(ax,ay){
+  const tap=ax!==undefined;
+  if(shoot.length>14)return;                   // don't let fast tapping flood it
+  const dir=tap?(ax>cvW*.5?-1:1):(Math.random()<.5?1:-1);
+  const a=RND(.2,.55),sp=tap?RND(9,15):RND(7,13),life=tap?RND(45,80):RND(55,95);
+  shoot.push({
+    x:tap?ax:(dir>0?RND(-.1,.55)*cvW:RND(.45,1.1)*cvW),
+    y:tap?ay:RND(-.08,.5)*cvH,
+    vx:Math.cos(a)*sp*dir,vy:Math.sin(a)*sp,
+    len:tap?RND(8,15):RND(6,13),w:tap?RND(1.4,2.6):RND(1.1,2.2),life,max:life});
+  if(!tap&&Math.random()<.22)setTimeout(()=>spawnShoot(),RND(180,420));  // occasional pair
 }
 
 // ── the frame ──
@@ -1084,6 +1104,12 @@ addEventListener('resize',()=>{
 });
 if(!TOUCH)addEventListener('mousemove',e=>{
   tmx=(e.clientX/cvW-.5)*2;tmy=(e.clientY/cvH-.5)*2;
+},{passive:true});
+// tap or click anywhere and a shooting star streaks away from that spot
+// (skipped over the intro, which covers the sky)
+addEventListener('pointerdown',e=>{
+  if(RM||(e.target.closest&&e.target.closest('#intro')))return;
+  spawnShoot(e.clientX,e.clientY);
 },{passive:true});
 requestAnimationFrame(cosmos);
 
@@ -1174,6 +1200,9 @@ function initHero(){
 }
 
 // ═══ THEME ═══
+// the page may have opened in either palette (see DEFAULT_THEME), so make the
+// toggle's labels agree with it before anyone touches the switch
+if(aurora()){$('nL').classList.add('on');$('cL').classList.remove('on')}
 function toggleTheme(){
   const h=document.documentElement;
   if(h.dataset.theme==='aurora'){delete h.dataset.theme;$('cL').classList.add('on');$('nL').classList.remove('on')}
@@ -1205,8 +1234,7 @@ function morphInf(){isInf=true;$('mBar').classList.add('morph');setTimeout(()=>{
 function morphBack(){$('infB').classList.remove('sh');setTimeout(()=>{const f=$('mFill');f.style.transition='none';f.style.width='0%';f.offsetHeight;f.style.transition='width .3s';$('mBar').classList.remove('morph');const m=$('mMsg');m.textContent="let's fill it again 💛";m.classList.remove('inf');lv=0;isInf=false},300)}
 
 // ═══ COUNTDOWN ═══
-// ── Kriti's birthday. Change this one line to her real date/time. ──
-const BIRTHDAY='1996-11-03T00:00:00+05:45';
+// BIRTHDAY lives in the settings block at the top of the file.
 function uCD(){
   const bd=new Date(BIRTHDAY),now=new Date(),ahead=bd>now;
   const d=Math.abs(bd-now),dy=~~(d/864e5),h=~~(d%864e5/36e5),m=~~(d%36e5/6e4),s=~~(d%6e4/1e3);

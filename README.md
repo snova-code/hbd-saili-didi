@@ -3,33 +3,35 @@
 A single-page birthday site. No build step, no installing anything — just open
 `index.html` in a browser.
 
-## Before you share it, do these two things
+## Before you share it
 
-### 1. Set her birthday
-
-Open `index.html`, search for `BIRTHDAY`, and change this one line
-(it's near the bottom):
-
-```js
-const BIRTHDAY='2026-11-03T00:00:00+05:30';
-```
-
-Format is `YYYY-MM-DDTHH:MM:SS+TZ`. `+05:30` is India, `+05:45` is Nepal.
-So for 14 March 1999, 9:30am India time:
-
-```js
-const BIRTHDAY='1999-03-14T09:30:00+05:30';
-```
-
-The counter counts **up** from a past date and **down** to a future one, and
-the heading above it changes to match.
-
-### 2. Add her photos
+### Add her photos
 
 Put them in the `photos/` folder named `1.jpeg` through `8.jpeg`
 (lowercase `.jpeg`, exact names). Photos 1–6 fill the slideshow,
 1–8 fill the floating gallery. Missing ones show a placeholder, so it's fine
 to start with just a few.
+
+That's the only thing left to do — her birthday is already set.
+
+### Settings (already filled in)
+
+Near the top of `index.html` there's one small block with everything you might
+want to change:
+
+```js
+const DEFAULT_THEME = 'sunlight';                  // or 'aurora'
+const BIRTHDAY      = '1996-11-03T00:00:00+05:45'; // Nepal time
+```
+
+**`DEFAULT_THEME`** is which of the two looks the page opens in — the warm
+`'sunlight'` one or the cool `'aurora'` one. Change the word, save, done. The
+toggle in the corner still works either way; this only sets the starting side.
+
+**`BIRTHDAY`** is set to 3 November 1996, Nepal time. The format is
+`YYYY-MM-DDTHH:MM:SS+TZ` — `+05:45` is Nepal, `+05:30` is India. The counter
+counts **up** from a past date and **down** to a future one, and the heading
+above it changes to match.
 
 ## Putting it on GitHub Pages
 
@@ -73,6 +75,7 @@ pieces on phones so it stays smooth.
 
 - It's built for a phone first — that's where she'll most likely open it.
 - Tap the opening screen to get in. Tap it once more if you want to skip ahead.
+- Tapping anywhere launches a shooting star from that spot.
 - The tree blooms when you tap it. The meter fills as you tap anywhere.
 - Top right switches between the warm and cool themes.
 - Music starts on its own where the browser allows it; otherwise tap the
